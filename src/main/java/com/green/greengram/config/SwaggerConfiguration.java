@@ -11,28 +11,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-    info = @Info(
-        title = "${constants.swagger.info.title}"
-        , description = "${constants.swagger.info.description}"
-        , version = "${constants.swagger.info.version}"
-    )
-    , security = @SecurityRequirement(name = "${constants.swagger.authorization.name}")
+        info = @Info(
+                title = "${constants.swagger.info.title}"
+                , description = "${constants.swagger.info.description}"
+                , version = "${constants.swagger.info.version}"
+        )
+        , security = @SecurityRequirement(name = "${constants.swagger.authorization.name}")
 )
 
 @SecurityScheme(
-    type = SecuritySchemeType.HTTP
-    , name = "${constants.swagger.authorization.name}"
-    , in = SecuritySchemeIn.HEADER
-    , bearerFormat = "${constants.swagger.authorization.bearer-format}"
-    , scheme = "${constants.swagger.authorization.scheme}"
+        type = SecuritySchemeType.HTTP
+        , name = "${constants.swagger.authorization.name}"
+        , in = SecuritySchemeIn.HEADER
+        , bearerFormat = "${constants.swagger.authorization.bearer-format}"
+        , scheme = "${constants.swagger.authorization.scheme}"
 )
 @Configuration
 public class SwaggerConfiguration {
     @Bean
-    public GroupedOpenApi groupGreengramApi() {
+    public GroupedOpenApi groupAllApi() {
         return GroupedOpenApi.builder()
                 .group("All") //Select a definition에 나타날 그룹 이름
-                .packagesToScan("com.green.greengram") //그룹에 묶일 아이들
+                .packagesToScan("com.green.greengram")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi groupGreengramApi() {
+        return GroupedOpenApi.builder()
+                .group("Greengram") //Select a definition에 나타날 그룹 이름
+                .pathsToMatch("/api/feed/**", "/api/user", "/api/user/pic", "/api/product/**")
                 .build();
     }
 

@@ -16,7 +16,7 @@ public class OrderProduct {
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
-    private OrderMaster orderMaster; //owner다.(FK생성)
+    private OrderMaster orderMaster;
 
     @ManyToOne
     @MapsId("productId")

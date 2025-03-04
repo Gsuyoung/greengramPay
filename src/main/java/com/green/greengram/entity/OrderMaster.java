@@ -38,13 +38,13 @@ public class OrderMaster extends UpdatedAt {
 
     orphanRemoval = true를 설정하여, OrderMaster에서 OrderProduct가 제거되면 고아 객체가 되는 OrderProduct도 자동으로 삭제
      */
-    @OneToMany(mappedBy = "orderMaster", cascade = CascadeType.ALL, orphanRemoval = true) //mappedBy = "멤버필드명"
+    @Builder.Default //builder패턴 이용시 orderProductList = null이 되는데 이 애노테이션으로 방지
+    @OneToMany(mappedBy = "orderMaster", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProduct> orderProductList = new ArrayList<>();
 
     // 양방향 관계를 유지하기 위해 helper 메소드 추가
     public void addOrderProduct(OrderProduct orderProduct) {
-        orderProductList.add(orderProduct);
+        orderProductList.add(orderProduct); //자식(OrderProduct) 주소값 추가
         orderProduct.setOrderMaster(this);
     }
 }
-

@@ -2,7 +2,6 @@ package com.green.greengram.entity;
 
 import com.green.greengram.config.enumcode.AbstractEnumCodeConverter;
 import com.green.greengram.config.enumcode.EnumMapperType;
-import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum OrderStatusCode implements EnumMapperType {
-      READY("01", "준비") //db에 01 저장 // 전달할때는 '준비'
+    READY("01", "준비")
     , FAIL("02", "실패")
     , CANCEL("03", "취소")
     , COMPLETED("09", "완료")

@@ -20,7 +20,8 @@ constants:
     authorization-name: Authorization
     secret-key: ${KAKAO_PAY.SECRET}
     cid: TC0ONETIME
-    completed-url: http://localhost:8080/order/pay/completed
+    base-url: https://open-api.kakaopay.com/online/v1/payment
+    approval-url: http://localhost:8080/order/pay/approval
     fail-url: http://localhost:8080/order/pay/fail
     cancel-url: http://localhost:8080/order/pay/cancel
     kakao-pay-info-session-name: kakao-pay-info;
@@ -97,10 +98,10 @@ spring:
             client-authentication-method: client_secret_post #client-id, client-secret 쿼리스트링으로 날아가야 한다.
             authorization-grant-type: authorization_code #권한부여 유형 (인가코드 > access-token 받는 방식 선택)
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-                          # baseUrl: 서버가 돌아가고 있는 host
-                          # action: login
-                          # registrationId: kakao
-                          # 결과: localhost:8080/login/oauth2/code/kakao
+              # baseUrl: 서버가 돌아가고 있는 host
+              # action: login
+              # registrationId: kakao
+            # 결과: localhost:8080/login/oauth2/code/kakao
             scope:
               - profile_nickname
               - profile_image
@@ -113,7 +114,7 @@ spring:
             authorization-grant-type: authorization_code #권한부여 유형 (인가코드 > access-token 받는 방식 선택)
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
               # baseUrl: 서버가 돌아가고 있는 host
-              # action: login
+            # action: login
             # registrationId: kakao
             # 결과: localhost:8080/login/oauth2/code/kakao
             scope:
@@ -149,5 +150,3 @@ springdoc:
     tags-sorter: alpha
   cache:
     disabled: true
-
-
