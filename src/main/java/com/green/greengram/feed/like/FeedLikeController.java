@@ -1,7 +1,6 @@
 package com.green.greengram.feed.like;
 
 import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.feed.like.model.FeedLikeReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,9 @@ public class FeedLikeController {
 
     @GetMapping
     @Operation(summary = "피드 좋아요", description = "토글 처리")
-    public ResultResponse<Integer> feedLikeToggle(@ParameterObject @ModelAttribute FeedLikeReq p) {
-        log.info("FeedLikeController > feedLikeToggle > p: {}", p);
-        int result = service.feedLikeToggle(p);
+    public ResultResponse<Integer> feedLikeToggle(@RequestParam Long feedId) {
+        log.info("FeedLikeController > feedLikeToggle > p: {}", feedId);
+        int result = service.feedLikeToggle(feedId);
         return ResultResponse.<Integer>builder()
                 .resultMessage(result == 0 ? "좋아요 취소" : "좋아요 등록")
                 .resultData(result)

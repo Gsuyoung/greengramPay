@@ -14,7 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class Oauth2AuthenticationCheckRedirectUriFilter extends OncePerRequestFilter {
 

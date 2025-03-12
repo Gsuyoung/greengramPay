@@ -2,7 +2,6 @@ package com.green.greengram.feed.like;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.greengram.config.model.ResultResponse;
-import com.green.greengram.feed.like.model.FeedLikeReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -21,11 +20,11 @@ public class FeedLikeTestCommon {
         return queryParams;
     }
 
-    FeedLikeReq getGivenParam(long feedId) {
-        FeedLikeReq givenParam = new FeedLikeReq();
-        givenParam.setFeedId(feedId);
-        return givenParam;
-    }
+//    FeedLikeReq getGivenParam(long feedId) {
+//        FeedLikeReq givenParam = new FeedLikeReq();
+//        givenParam.setFeedId(feedId);
+//        return givenParam;
+//    }
 
     String getExpectedResJson(int result) throws Exception {
         ResultResponse expectedRes = ResultResponse.<Integer>builder()

@@ -1,7 +1,10 @@
 package com.green.greengram.feed.like;
 
 import com.green.greengram.config.security.AuthenticationFacade;
-import com.green.greengram.feed.like.model.FeedLikeReq;
+import com.green.greengram.entity.Feed;
+import com.green.greengram.entity.FeedLike;
+import com.green.greengram.entity.FeedLikeIds;
+import com.green.greengram.entity.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class FeedLikeServiceTest {
@@ -22,7 +28,7 @@ class FeedLikeServiceTest {
     private FeedLikeService feedLikeService;
 
     @Mock
-    private FeedLikeMapper feedLikeMapper;
+    private FeedLikeRepository feedLikeRepository;
 
     @Mock
     private AuthenticationFacade authenticationFacade;
@@ -39,31 +45,46 @@ class FeedLikeServiceTest {
     @Test
     @DisplayName("좋아요 처리")
     void feedLikeToggleIns() {
-        FeedLikeReq givenParam = new FeedLikeReq();
-        givenParam.setUserId(SIGNED_USER_ID_3);
-        givenParam.setFeedId(FEED_ID_8);
-        given(feedLikeMapper.delFeedLike(givenParam)).willReturn(0);
-        given(feedLikeMapper.insFeedLike(givenParam)).willReturn(1);
+        FeedLikeIds ids = FeedLikeIds.builder()
+                .feedId(FEED_ID_7)
+                .userId(SIGNED_USER_ID_3)
+                .build();
 
-        FeedLikeReq actualParam = new FeedLikeReq();
-        actualParam.setFeedId(FEED_ID_8);
-        int actualResult = feedLikeService.feedLikeToggle(actualParam);
+        FeedLike feedLike = FeedLike.builder()
+                .feedLikeIds(ids)
+                .feed(Feed.builder().feedId(FEED_ID_7).build())
+                .user(User.builder().userId(SIGNED_USER_ID_3).build())
+                .build();
+
+        given(feedLikeRepository.findById(ids)).willReturn(Optional.ofNullable(null));
+        int actualResult = feedLikeService.feedLikeToggle(FEED_ID_7);
 
         assertEquals(1, actualResult);
+
+        verify(feedLikeRepository).save(feedLike);
     }
 
     @Test
     @DisplayName("좋아요 취소")
     void feedLikeToggleDel() {
-        FeedLikeReq givenParam = new FeedLikeReq();
-        givenParam.setUserId(SIGNED_USER_ID_3);
-        givenParam.setFeedId(FEED_ID_7);
-        given(feedLikeMapper.delFeedLike(givenParam)).willReturn(1);
+        FeedLikeIds ids = FeedLikeIds.builder()
+                .feedId(FEED_ID_7)
+                .userId(SIGNED_USER_ID_3)
+                .build();
 
-        FeedLikeReq actualParam = new FeedLikeReq();
-        actualParam.setFeedId(FEED_ID_7);
-        int actualResult = feedLikeService.feedLikeToggle(actualParam);
+        FeedLike feedLike = FeedLike.builder()
+                .feedLikeIds(ids)
+                .feed(Feed.builder().feedId(FEED_ID_7).build())
+                .user(User.builder().userId(SIGNED_USER_ID_3).build())
+                .build();
+
+        given(feedLikeRepository.findById(ids)).willReturn(Optional.of(feedLike));
+
+
+        int actualResult = feedLikeService.feedLikeToggle(FEED_ID_7);
 
         assertEquals(0, actualResult);
+
+        verify(feedLikeRepository).delete(feedLike);
     }
 }

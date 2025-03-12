@@ -1,12 +1,14 @@
 package com.green.greengram.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode //가짜 mock한테 역할 줄때 필요한 애노테이션(test때)
 public class FeedLike extends CreatedAt {
     @EmbeddedId
     private FeedLikeIds feedLikeIds;
